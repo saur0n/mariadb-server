@@ -7905,3 +7905,5 @@ ER_VERS_TEMPORARY
 
 ER_VERS_INPLACE_NOT_IMPLEMENTED
         eng "Not implemented for system-versioned tables"
+ER_UPDATED_COLUMN_ONLY_ONCE
+        eng "The column %`s.%`s cannot be changed more than once in a single UPDATE statement"
