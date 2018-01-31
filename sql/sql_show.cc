@@ -2853,7 +2853,7 @@ int fill_show_explain(THD *thd, TABLE_LIST *table, COND *cond)
   DBUG_ENTER("fill_show_explain");
 
   DBUG_ASSERT(cond==NULL);
-  thread_id= thd->lex->value_list.head()->val_int();
+  thread_id= (my_thread_id)thd->lex->value_list.head()->val_int();
   calling_user= (thd->security_ctx->master_access & PROCESS_ACL) ?  NullS :
                  thd->security_ctx->priv_user;
 
@@ -7399,7 +7399,7 @@ int fill_variables(THD *thd, TABLE_LIST *tables, COND *cond)
 
   COND *partial_cond= make_cond_for_info_schema(thd, cond, tables);
 
-  mysql_rwlock_rdlock(&LOCK_system_variables_hash);
+  mysql_prlock_rdlock(&LOCK_system_variables_hash);
 
   /*
     Avoid recursive LOCK_system_variables_hash acquisition in
@@ -7414,7 +7414,7 @@ int fill_variables(THD *thd, TABLE_LIST *tables, COND *cond)
   res= show_status_array(thd, wild, enumerate_sys_vars(thd, sorted_vars, scope),
                          scope, NULL, "", tables->table,
                          upper_case_names, partial_cond);
-  mysql_rwlock_unlock(&LOCK_system_variables_hash);
+  mysql_prlock_unlock(&LOCK_system_variables_hash);
   DBUG_RETURN(res);
 }
 

@@ -2436,7 +2436,7 @@ public:
                    my_off_t *fn_start, my_off_t *fn_end,
                    const char *qualify_db);
   my_thread_id thread_id;
-  ulong slave_proxy_id;
+  my_thread_id slave_proxy_id;
   uint32 table_name_len;
   /*
     No need to have a catalog, as these events can only come from 4.x.
