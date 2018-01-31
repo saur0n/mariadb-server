@@ -9532,7 +9532,8 @@ void Item_trigger_field::setup_field(THD *thd, TABLE *table,
     set field_idx properly.
   */
   Field *f= table->find_field_by_name(&field_name);
-  if (f)
+  if (f && (f->invisible < INVISIBLE_SYSTEM ||
+            (f->invisible == INVISIBLE_SYSTEM && want_privilege == SELECT_ACL)))
     field_idx= f->field_index;
   triggers= table->triggers;
   table_grants= table_grant_info;
