@@ -4762,8 +4762,8 @@ void Query_log_event::print_query_header(IO_CACHE* file,
   if (!print_event_info->short_form)
   {
     print_header(file, print_event_info, FALSE);
-    my_b_printf(file, "\t%s\tthread_id=%lu\texec_time=%lu\terror_code=%d\n",
-                get_type_str(), (ulong) thread_id, (ulong) exec_time,
+    my_b_printf(file, "\t%s\tthread_id=%u\texec_time=%lu\terror_code=%d\n",
+                get_type_str(), thread_id, (ulong) exec_time,
                 error_code);
   }
 
@@ -4795,8 +4795,8 @@ void Query_log_event::print_query_header(IO_CACHE* file,
         thread_id != print_event_info->thread_id)))
   {
     // If --short-form, print deterministic value instead of pseudo_thread_id.
-    my_b_printf(file,"SET @@session.pseudo_thread_id=%lu%s\n",
-                short_form ? 999999999 : (ulong)thread_id,
+    my_b_printf(file,"SET @@session.pseudo_thread_id=%u%s\n",
+                short_form ? 999999999 : thread_id,
                 print_event_info->delimiter);
     print_event_info->thread_id= thread_id;
     print_event_info->thread_id_printed= 1;
@@ -6488,7 +6488,7 @@ Load_log_event::Load_log_event(THD *thd_arg, sql_exchange *ex,
              thd_arg->thread_specific_used ? LOG_EVENT_THREAD_SPECIFIC_F : 0,
              using_trans),
    thread_id(thd_arg->thread_id),
-   slave_proxy_id((ulong)thd_arg->variables.pseudo_thread_id),
+   slave_proxy_id(thd_arg->variables.pseudo_thread_id),
    num_fields(0),fields(0),
    field_lens(0),field_block_len(0),
    table_name(table_name_arg ? table_name_arg : ""),
@@ -6702,8 +6702,8 @@ void Load_log_event::print(FILE* file_arg, PRINT_EVENT_INFO* print_event_info,
             db, print_event_info->delimiter);
 
   if (flags & LOG_EVENT_THREAD_SPECIFIC_F)
-    my_b_printf(&cache,"%sSET @@session.pseudo_thread_id=%lu%s\n",
-            commented ? "# " : "", (ulong)thread_id,
+    my_b_printf(&cache,"%sSET @@session.pseudo_thread_id=%u%s\n",
+            commented ? "# " : "", thread_id,
             print_event_info->delimiter);
   my_b_printf(&cache, "%sLOAD DATA ",
               commented ? "# " : "");

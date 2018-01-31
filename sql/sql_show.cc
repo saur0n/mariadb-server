@@ -2853,7 +2853,7 @@ int fill_show_explain(THD *thd, TABLE_LIST *table, COND *cond)
   DBUG_ENTER("fill_show_explain");
 
   DBUG_ASSERT(cond==NULL);
-  thread_id= thd->lex->value_list.head()->val_int();
+  thread_id= (my_thread_id)thd->lex->value_list.head()->val_int();
   calling_user= (thd->security_ctx->master_access & PROCESS_ACL) ?  NullS :
                  thd->security_ctx->priv_user;
 
