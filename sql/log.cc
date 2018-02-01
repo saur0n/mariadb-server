@@ -10548,7 +10548,7 @@ IO_CACHE * get_trans_log(THD * thd)
   if (cache_mngr)
     return cache_mngr->get_binlog_cache_log(true);
 
-  WSREP_DEBUG("binlog cache not initialized, conn: %llu",
+  WSREP_DEBUG("binlog cache not initialized, conn: %u",
 	      thd->thread_id);
   return NULL;
 }
@@ -10587,7 +10587,7 @@ void thd_binlog_trx_reset(THD * thd)
 
 void thd_binlog_rollback_stmt(THD * thd)
 {
-  WSREP_DEBUG("thd_binlog_rollback_stmt connection: %llu",
+  WSREP_DEBUG("thd_binlog_rollback_stmt connection: %u",
 	      thd->thread_id);
   binlog_cache_mngr *const cache_mngr=
     (binlog_cache_mngr*) thd_get_ha_data(thd, binlog_hton);

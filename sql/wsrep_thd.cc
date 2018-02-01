@@ -408,7 +408,7 @@ static void wsrep_replication_process(THD *thd)
 
   if(thd->has_thd_temporary_tables())
   {
-    WSREP_WARN("Applier %lld has temporary tables at exit.",
+    WSREP_WARN("Applier %u has temporary tables at exit.",
                thd->thread_id);
   }
   wsrep_return_from_bf_mode(thd, &shadow);

@@ -254,9 +254,9 @@ static void free_memory(void *ptr)
   if ((irem->flags & MY_THREAD_SPECIFIC) && irem->thread_id &&
       irem->thread_id != sf_malloc_dbug_id())
   {
-    fprintf(stderr, "Warning: %4lu bytes freed by T@%lu, allocated by T@%lu at ",
+    fprintf(stderr, "Warning: %4lu bytes freed by T@%u, allocated by T@%u at ",
               (ulong) irem->datasize,
-              (ulong) sf_malloc_dbug_id(), (ulong) irem->thread_id);
+              sf_malloc_dbug_id(), irem->thread_id);
       print_stack(irem->frame);
   }
 
@@ -378,7 +378,7 @@ void sf_report_leaked_memory(my_thread_id id)
     {
       my_thread_id tid = irem->thread_id && irem->flags & MY_THREAD_SPECIFIC ?
                          irem->thread_id : 0;
-      fprintf(stderr, "Warning: %4lu bytes lost at %p, allocated by T@%llu at ",
+      fprintf(stderr, "Warning: %4lu bytes lost at %p, allocated by T@%u at ",
               (ulong) irem->datasize, (char*) (irem + 1), tid);
       print_stack(irem->frame);
       total+= irem->datasize;

@@ -281,7 +281,7 @@ wsrep_cb_status_t wsrep_apply_cb(void* const             ctx,
 
   if (thd->has_thd_temporary_tables())
   {
-    WSREP_DEBUG("Applier %lld has temporary tables. Closing them now..",
+    WSREP_DEBUG("Applier %u has temporary tables. Closing them now..",
                 thd->thread_id);
     thd->close_temporary_tables();
   }
